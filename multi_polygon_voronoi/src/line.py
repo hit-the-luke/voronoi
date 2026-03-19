@@ -28,8 +28,12 @@ class Line:
         self.serial_number = Line.serial_number_counter
         Line.serial_number_counter += 1
         self.origin = origin
-        if end_point is None and direction is None:
-            raise ValueError("end_point and direction are None")
+        if end_point is None:
+            if direction is None:
+                raise ValueError("end_point and direction are None")
+        else:
+            if np.all(end_point == origin) and direction is None:
+                raise Exception('invalid definition of Line: length is 0 and no direction')
         self._end_point = end_point
         self._direction = direction
         self._length = None
